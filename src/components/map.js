@@ -18,10 +18,11 @@ const mapOptions = function(maps) {
   };
 };
 
-
 export default class SimpleMap extends Component {
   constructor(props) {
     super(props);
+
+    this.onAPI = this.onAPI.bind(this);
 
     this.state = {
       bounds: [],
@@ -35,6 +36,18 @@ export default class SimpleMap extends Component {
 
   static defaultProps = { center: { lat: 34.69, lng: -86.75 }, zoom: 10 };
 
+  onAPI({ map, maps }) {
+    if (!this.props.layers) return;
+
+    this.props.layers.forEach(url => {
+      var layer = new maps.KmlLayer({ clickable: true, url, map });
+
+      maps.event.addListener(layer, 'status_changed', () => {
+        if (layer.getStatus() !== 'OK')
+          console.error(`Invalid KML document at ${url}`);
+      });
+    });
+  }
 
   render() {
     return (
@@ -44,8 +57,8 @@ export default class SimpleMap extends Component {
         defaultCenter={this.props.center}
         defaultZoom={this.props.zoom}
         yesIWantToUseGoogleMapApiInternals
-      >
-      </GoogleMapReact>
+        onGoogleApiLoaded={this.onAPI}
+      />
     );
   }
 }

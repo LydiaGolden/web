@@ -23,6 +23,8 @@ export default class SimpleMap extends Component {
     super(props);
 
     this.onAPI = this.onAPI.bind(this);
+    this.renderLayers = this.renderLayers.bind(this);
+    this.search = this.search.bind(this);
 
     this.state = {
       bounds: [],
@@ -37,15 +39,35 @@ export default class SimpleMap extends Component {
   static defaultProps = { center: { lat: 34.69, lng: -86.75 }, zoom: 10 };
 
   onAPI({ map, maps }) {
+    this.map = map;
+    this.maps = maps;
+
+    this.renderLayers();
+  }
+
+  renderLayers() {
     if (!this.props.layers) return;
 
-    this.props.layers.forEach(url => {
-      var layer = new maps.KmlLayer({ clickable: true, url, map });
+    this.props.layers.forEach(({ url, clickable }) => {
+      var layer = new this.maps.KmlLayer({ clickable, url, map: this.map });
 
-      maps.event.addListener(layer, 'status_changed', () => {
-        if (layer.getStatus() !== 'OK')
-          console.error(`Invalid KML document at ${url}`);
+      this.maps.event.addListener(layer, 'status_changed', () => {
+        const status = layer.getStatus();
+        if (status !== 'OK')
+          console.error(`KML document at ${url} not OK; Status is ${status}`);
       });
+    });
+  }
+
+  search() {
+    if (!this.map || !this.maps) return;
+
+    var geocoder = new this.maps.Geocoder();
+    geocoder.geocode({ address: 'Huntsville, AL' }, (results, status) => {
+      if (status === this.maps.GeocoderStatus.OK) {
+        const latlng = new this.maps.LatLng(results[0].geometry.location.latitude, results[0].geometry.location.longitude);
+        this.map.panTo(latlng);
+      }
     });
   }
 

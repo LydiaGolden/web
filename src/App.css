@@ -1,34 +1,119 @@
-html,
-body {
-  width: 100%;
-  height: 100%;
-}
-
 #root {
-  height: 100%;
+    height: 100%;
 }
 
-.App {
-  text-align: center;
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600,700");
+html, body {
+    height: 100%;
+    font-family: "Open Sans", sans-serif;
+    padding: 0;
+    margin: 0
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.pull-left {
+    float: left
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+.pull-right {
+    float: right
 }
 
-.App-intro {
-  font-size: large;
+body {
+    position: relative;
+    background-size: cover
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.navigation {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    position: relative;
+    height: 49px;
+    line-height: 50px;
+    font-size: 20px;
+    color: #999;
+    background: #FFF;
+    border-bottom: 1px solid #777;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3)
+}
+
+.navigation .search {
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1
+}
+
+.navigation .search .input-icon {
+    position: absolute;
+    width: 45px;
+    text-align: center;
+    line-height: inherit
+}
+
+.navigation .search input {
+    width: 100%;
+    padding-left: 50px;
+    border: 0;
+    font-size: inherit
+}
+
+.navigation .search input:focus, .navigation .search input:hover, .navigation .search input:active {
+    outline: 0
+}
+
+.navigation .search input:focus {
+    border-color: #4183D7
+}
+
+.navigation .nav {
+    position: relative;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0
+}
+
+.navigation .nav .hamburger {
+    display: inline-block;
+    text-align: center;
+    width: 50px;
+    height: 49px;
+    background: #FFF;
+    border-left: 1px solid #777;
+    color: inherit;
+    font-size: inherit
+}
+
+.navigation .side-nav {
+    position: fixed;
+    height: 100%;
+    width: 300px;
+    right: 0;
+    margin-right: -300px;
+    z-index: 2;
+    overflow: auto;
+    background: #FFF;
+    border-left: 1px solid #777;
+    transition: margin-right 0.65s ease
+}
+
+.navigation .side-nav a#close {
+    display: block;
+    line-height: normal;
+    position: absolute;
+    top: 0;
+    right: 15px;
+    text-decoration: none;
+    color: inherit;
+    font-size: 35px
+}
+
+.navigation .side-nav .side-nav-content {
+    margin-top: 50px;
+    padding: 0 10px;
+    font-size: 16px
+}
+
+.navigation .side-nav .side-nav-content ul {
+    padding: 0;
+    margin: 0
 }
